@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import {
+  setNotificationHandler,
   requestPermissionsAsync,
   getPermissionsAsync,
   scheduleNotificationAsync,
@@ -16,6 +17,14 @@ import {
   NotificationPermissionsStatus,
   NotificationRequest,
 } from 'expo-notifications';
+
+setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
 
 const App: VFC = () => {
   const [notificationPermissionStatus, setNotificationPermissionsStatus] =

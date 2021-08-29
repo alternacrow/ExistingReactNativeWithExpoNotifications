@@ -1,0 +1,32 @@
+diff --git a/node_modules/@unimodules/react-native-adapter/ios/UMReactNativeAdapter/Services/UMReactNativeEventEmitter.m b/node_modules/@unimodules/react-native-adapter/ios/UMReactNativeAdapter/Services/UMReactNativeEventEmitter.m
+index 7fe313b..6fe899a 100644
+--- a/node_modules/@unimodules/react-native-adapter/ios/UMReactNativeAdapter/Services/UMReactNativeEventEmitter.m
++++ b/node_modules/@unimodules/react-native-adapter/ios/UMReactNativeAdapter/Services/UMReactNativeEventEmitter.m
+@@ -139,7 +139,9 @@ RCT_EXPORT_METHOD(removeProxiedListeners:(NSString *)moduleName count:(double)co
+
+ - (void)setModuleRegistry:(UMModuleRegistry *)moduleRegistry
+ {
+-  _umModuleRegistry = moduleRegistry;
++  if ([moduleRegistry isKindOfClass:[UMModuleRegistry class]]) {
++    _umModuleRegistry = moduleRegistry;
++  }
+ }
+
+ @end
+diff --git a/node_modules/@unimodules/react-native-adapter/build/NativeModulesProxy.native.js b/node_modules/@unimodules/react-native-adapter/build/NativeModulesProxy.native.js
+index fdcfaba..d2a55e1 100644
+--- a/node_modules/@unimodules/react-native-adapter/build/NativeModulesProxy.native.js
++++ b/node_modules/@unimodules/react-native-adapter/build/NativeModulesProxy.native.js
+@@ -20,8 +20,10 @@ if (NativeProxy) {
+         //
+         // On Android only {start,stop}Observing are called on the native module
+         // and these should be exported as Expo methods.
+-        NativeModulesProxy[moduleName].addListener = (...args) => NativeModules.UMReactNativeEventEmitter.addProxiedListener(moduleName, ...args);
+-        NativeModulesProxy[moduleName].removeListeners = (...args) => NativeModules.UMReactNativeEventEmitter.removeProxiedListeners(moduleName, ...args);
++        if (NativeModules.UMReactNativeEventEmitter) {
++            NativeModulesProxy[moduleName].addListener = (...args) => NativeModules.UMReactNativeEventEmitter.addProxiedListener(moduleName, ...args);
++            NativeModulesProxy[moduleName].removeListeners = (...args) => NativeModules.UMReactNativeEventEmitter.removeProxiedListeners(moduleName, ...args);
++        }
+     });
+ }
+ else {

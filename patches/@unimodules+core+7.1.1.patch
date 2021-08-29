@@ -1,0 +1,15 @@
+diff --git a/node_modules/@unimodules/core/ios/UMCore/UMUtilities.m b/node_modules/@unimodules/core/ios/UMCore/UMUtilities.m
+index e1c02e3..c8b7604 100644
+--- a/node_modules/@unimodules/core/ios/UMCore/UMUtilities.m
++++ b/node_modules/@unimodules/core/ios/UMCore/UMUtilities.m
+@@ -28,7 +28,9 @@ UM_REGISTER_MODULE();
+
+ - (void)setModuleRegistry:(UMModuleRegistry *)moduleRegistry
+ {
+-  _moduleRegistry = moduleRegistry;
++  if ([moduleRegistry isKindOfClass: [UMModuleRegistry class]]) {
++    _moduleRegistry = moduleRegistry;
++  }
+ }
+
+ - (nullable NSDictionary *)launchOptions

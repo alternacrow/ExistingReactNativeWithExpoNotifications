@@ -27,6 +27,9 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+import {Constants} from 'react-native-unimodules';
+console.log(Constants.systemFonts);
+
 const Section: React.FC<{
   title: string;
 }> = ({children, title}) => {
